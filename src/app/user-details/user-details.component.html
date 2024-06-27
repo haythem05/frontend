@@ -1,0 +1,26 @@
+<mat-card class="example-card">
+  <mat-card-header>
+    <div class="profile-image-container">
+      <img class="img-profile rounded-circle" *ngIf="user.image" [src]="'data:image/jpeg;base64,' + user.image" alt="Profile Image">
+      <img class="img-profile rounded-circle" *ngIf="!user.image && user.gender === 'Male'" src="assets/img/defaultMale.jpg" alt="Default Male Image">
+      <img class="img-profile rounded-circle" *ngIf="!user.image && user.gender === 'Female'" src="assets/img/defaultFemale.png" alt="Default Female Image">
+    </div>
+    <div class="profile-info">
+      <mat-card-title>{{ user.firstName }} {{ user.lastName }}</mat-card-title>
+      <mat-card-subtitle>{{ user.role }}</mat-card-subtitle>
+    </div>
+  </mat-card-header>
+
+  <mat-card-content>
+    <p>ID: <span class="not-bold">{{ user.userId }}</span></p>
+    <p>Email: <span class="not-bold">{{ user.email }}</span></p>
+    <p>Gender: <span class="not-bold">{{ user.gender }}</span></p>
+    <p>Skill Rate: <span class="not-bold">{{ user.skillRate }}</span></p>
+    <!-- Add more user details as needed -->
+  </mat-card-content>
+  
+  <mat-card-actions>
+    <button mat-button (click)="editUser(user.userId)">Edit Profile</button>
+    <button mat-button (click)="deleteUser(user.userId)">I got fired</button>
+  </mat-card-actions>
+</mat-card>

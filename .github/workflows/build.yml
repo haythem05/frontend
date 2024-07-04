@@ -22,5 +22,8 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y chromium-browser
           sudo apt-get install -y chromium-chromedriver
-          sudo ln -sf /usr/lib/chromium-browser/chromedriver /usr/bin/chromedriver  # Force symlink creation or update
+          # Remove existing symbolic link if it exists
+          sudo rm -f /usr/bin/chromedriver
+          # Create symbolic link
+          sudo ln -s /usr/lib/chromium-browser/chromedriver /usr/bin/chromedriver
       - run: npm test

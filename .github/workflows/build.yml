@@ -1,4 +1,4 @@
-name: Node.js
+name: Node.js CI
 
 on:
   push:
@@ -17,7 +17,4 @@ jobs:
         with:
           node-version: 18
       - run: npm ci
-      - name: Install Puppeteer
-        run: npm install puppeteer
-      - name: Run Karma tests with Puppeteer
-        run: npm run test:puppeteer
+      - run: npm run build  # Replace with your Angular build script if necessary

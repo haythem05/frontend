@@ -17,13 +17,7 @@ jobs:
         with:
           node-version: 18
       - run: npm ci
-      - name: Install Chromium and ChromeDriver
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y chromium-browser
-          sudo apt-get install -y chromium-chromedriver
-          # Remove existing symbolic link if it exists
-          sudo rm -f /usr/bin/chromedriver
-          # Create symbolic link
-          sudo ln -s /usr/lib/chromium-browser/chromedriver /usr/bin/chromedriver
-      - run: npm test
+      - name: Install Puppeteer
+        run: npm install puppeteer
+      - name: Run Karma tests with Puppeteer
+        run: npm run test:puppeteer

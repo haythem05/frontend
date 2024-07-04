@@ -1,7 +1,7 @@
 module.exports = function(config) {
     config.set({
       // other Karma configuration settings
-      browsers: ['Chrome'],
+      browsers: ['ChromeHeadless'],
       plugins: [
         // other plugins
         'karma-chrome-launcher'

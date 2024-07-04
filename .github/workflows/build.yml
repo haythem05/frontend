@@ -17,9 +17,10 @@ jobs:
         with:
           node-version: 18
       - run: npm ci
-      - name: Install ChromeHeadless
+      - name: Install Chromium and ChromeDriver
         run: |
           sudo apt-get update
           sudo apt-get install -y chromium-browser
-      - name: Run Tests with Karma
-        run: npm test
+          sudo apt-get install -y chromium-chromedriver
+          sudo ln -s /usr/lib/chromium-browser/chromedriver /usr/bin/chromedriver
+      - run: npm test

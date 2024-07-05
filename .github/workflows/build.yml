@@ -1,4 +1,4 @@
-name: Node.js CI
+name: Node.js CI with SonarQube
 
 on:
   push:
@@ -13,8 +13,35 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 18
+
+      - name: Cache Node.js modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
       - run: npm ci
+
       - run: npm run build  # Replace with your Angular build script if necessary
+
+      - name: Install SonarQube Scanner
+        run: npm install -g sonarqube-scanner
+
+      - name: SonarQube Scan
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}  # Analysis token associated with your project
+        run: |
+          sonar-scanner \
+            -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }} \
+            -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }} \
+            -Dsonar.projectName=${{ secrets.SONAR_PROJECT_NAME }} \
+            -Dsonar.sources=src \
+            -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }}

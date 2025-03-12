@@ -63,7 +63,7 @@ jobs:
           context: .
           file: ./dockerFile  # Specify the correct Dockerfile name
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/frontend_node:1
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/frontend_node:1.1
   trivy_scan:
     runs-on: ubuntu-latest
     needs: dockerpush

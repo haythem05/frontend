@@ -1,24 +1,33 @@
 const express = require('express');
 const { collectDefaultMetrics, register } = require('prom-client');
+const path = require('path');  // Added path module
 const app = express();
-const port = 80; // Same as the port your Angular app is running on
+const port = 80;
 
-// Initialize the default Prometheus metrics (e.g., up, nodejs process metrics)
+// Initialize default metrics
 collectDefaultMetrics();
 
-// Serve Prometheus metrics on the /metrics endpoint
+// Metrics endpoint should come FIRST
 app.get('/metrics', async (req, res) => {
   try {
     res.set('Content-Type', register.contentType);
     res.end(await register.metrics());
   } catch (error) {
-    res.status(500).send(error);
+    // Ensure error responses are text/plain
+    res.status(500)
+       .set('Content-Type', 'text/plain')
+       .send(error.message);
   }
 });
 
-// Serve the Angular application
-app.use(express.static('dist/frontend')); // Make sure this matches your build directory
+// Serve static Angular files
+app.use(express.static(path.join(__dirname, 'dist/frontend')));
+
+// Handle client-side routing - return index.html for all other routes
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist/frontend/index.html'));
+});
 
 app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+  console.log(`Server running on http://localhost:${port}`);
 });

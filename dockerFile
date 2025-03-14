@@ -5,14 +5,13 @@ RUN npm install
 # Verify the actual output path of your Angular build
 RUN ng build --output-path=dist/frontend-browser --configuration production
 
-# Final stage
 FROM node:19.5.0-alpine
 WORKDIR /usr/src/app
 # Match the copy path with actual build output
 COPY --from=Builder /usr/src/app/dist/frontend-browser ./dist/frontend
 COPY server.js .
 COPY package*.json .
-RUN npm install express prom-client
+RUN npm install express prom-client --production
 
 EXPOSE 80
 CMD ["node", "server.js"]

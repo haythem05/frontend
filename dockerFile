@@ -1,19 +1,33 @@
 # Builder stage
 FROM node:19.5.0-alpine AS Builder
 WORKDIR /usr/src/app
+
+# Install exact Angular CLI version
+RUN npm install -g @angular/cli@17.2.0
+
+# Install dependencies first for caching
+COPY package*.json ./
+RUN npm ci
+
+# Copy source files
 COPY . .
-RUN npm install -g @angular/cli
-RUN npm install
-# Build to EXACT path used in angular.json
+
+# Build Angular app
 RUN ng build --output-path=dist/frontend-browser --configuration production
 
 # Final stage
 FROM node:19.5.0-alpine
 WORKDIR /usr/src/app
-# Copy from EXACT build path
+
+# Copy built files
 COPY --from=Builder /usr/src/app/dist/frontend-browser ./dist/frontend-browser
+
+# Copy server files
 COPY server.js .
 COPY package*.json .
-RUN npm install express prom-client --production
+
+# Install production dependencies
+RUN npm install express prom-client --omit=dev
+
 EXPOSE 80
 CMD ["node", "server.js"]

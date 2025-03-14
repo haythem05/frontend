@@ -20,7 +20,7 @@ FROM node:19.5.0-alpine
 WORKDIR /usr/src/app
 
 # Copy built Angular files
-COPY --from=Builder /usr/src/app/dist/frontend-browser ./dist/frontend
+COPY --from=Builder /usr/src/app/dist/frontend-browser ./dist/frontend-browser
 
 # Copy server files
 COPY server.js .

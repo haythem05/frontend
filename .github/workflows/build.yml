@@ -29,7 +29,7 @@ jobs:
 
       - run: npm ci
 
-      - run: npm run build  # Replace with your Angular build script if necessary
+      - run: npm run build -- --output-path=dist/frontend --configuration production # Replace with your Angular build script if necessary
 
       - name: Install SonarQube Scanner
         run: npm install -g sonarqube-scanner

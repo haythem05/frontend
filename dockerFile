@@ -1,22 +1,16 @@
-# Builder stage
 FROM node:19.5.0-alpine AS Builder
 WORKDIR /usr/src/app
-COPY package*.json ./
-RUN npm install -g @angular/cli
-RUN npm install
 COPY . .
-# Ensure Angular outputs to dist/frontend
-RUN ng build --output-path=dist/frontend --configuration production
+RUN npm install
+# Verify the actual output path of your Angular build
+RUN ng build --output-path=dist/frontend-browser --configuration production
 
-# Final stage
 FROM node:19.5.0-alpine
 WORKDIR /usr/src/app
-# Copy built Angular files
-COPY --from=Builder /usr/src/app/dist/frontend ./dist/frontend
-# Copy server files
+# Match the copy path with actual build output
+COPY --from=Builder /usr/src/app/dist/frontend-browser ./dist/frontend
 COPY server.js .
 COPY package*.json .
-# Install production dependencies
 RUN npm install express prom-client --production
 
 EXPOSE 80

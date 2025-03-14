@@ -1,33 +1,35 @@
 const express = require('express');
+const path = require('path');
 const { collectDefaultMetrics, register } = require('prom-client');
-const path = require('path');  // Added path module
 const app = express();
 const port = 80;
 
-// Initialize default metrics
+// Prometheus metrics setup
 collectDefaultMetrics();
 
-// Metrics endpoint should come FIRST
+// Metrics endpoint
 app.get('/metrics', async (req, res) => {
   try {
     res.set('Content-Type', register.contentType);
     res.end(await register.metrics());
   } catch (error) {
-    // Ensure error responses are text/plain
     res.status(500)
        .set('Content-Type', 'text/plain')
        .send(error.message);
   }
 });
 
-// Serve static Angular files
-app.use(express.static(path.join(__dirname, 'dist/frontend')));
+// Serve static files using absolute path
+app.use(express.static(
+  path.join(__dirname, 'dist/frontend'),
+  { maxAge: '1y' }  // Add caching for production
+));
 
-// Handle client-side routing - return index.html for all other routes
+// Client-side routing fallback
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist/frontend/index.html'));
 });
 
 app.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
+  console.log(`Server running on port ${port}`);
 });

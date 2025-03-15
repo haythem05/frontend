@@ -21,13 +21,13 @@ app.get('/metrics', async (req, res) => {
 
 // Serve static files using absolute path
 app.use(express.static(
-  path.join(__dirname, 'dist/frontend-browser'),
+  path.join(__dirname, 'dist/frontend-browser/browser'),
   { maxAge: '1y' }  // Add caching for production
 ));
 
 // Client-side routing fallback
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist/frontend-browser/index.html'));
+  res.sendFile(path.join(__dirname, 'dist/frontend-browser/browser/index.html'));
 });
 
 app.listen(port, () => {

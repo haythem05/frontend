@@ -18,7 +18,7 @@ RUN ng build --output-path=dist/frontend-browser --configuration production
 # Final stage
 FROM node:19.5.0-alpine
 WORKDIR /usr/src/app
-
+# Copy built files
 # Copy built files
 COPY --from=Builder /usr/src/app/dist/frontend-browser ./dist/frontend-browser
 

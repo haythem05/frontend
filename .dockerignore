@@ -1,4 +1,3 @@
-# .dockerignore
 .git
 .gitignore
 node_modules
@@ -7,4 +6,4 @@ node_modules
 .vscode
 *.log
 **/.env
-!dist/frontend-browser/**  # ← Whitelist build output
+!dist/frontend-browser/**  

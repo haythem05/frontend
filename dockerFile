@@ -25,6 +25,7 @@ COPY --from=Builder /usr/src/app/dist/frontend-browser/browser ./dist/frontend-b
 # Copy server files
 COPY server.js .
 COPY package*.json .
+#test
 
 # Install production dependencies
 RUN npm install express prom-client --omit=dev

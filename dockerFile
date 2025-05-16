@@ -20,7 +20,7 @@ FROM node:19.5.0-alpine
 WORKDIR /usr/src/app
 # Copy built files
 # Copy built files
-COPY --from=Builder /usr/src/app/dist/frontend-browser/browser ./dist/frontend-browser
+COPY --from=Builder /usr/src/app/dist/frontend-browser/browser ./dist/frontend-browser/browser
 
 # Copy server files
 COPY server.js .

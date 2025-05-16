@@ -13,7 +13,7 @@ import { User } from '../Models/user';
 export class LoginComponent implements OnInit {
 
   captcha: string = '';
-  recaptchaResolved : boolean = false;
+  recaptchaResolved : boolean = true;
   warningMessage: string = '';
   constructor(private userService: UserService , private userAuthService:UserAuthService , private router : Router) {
    
